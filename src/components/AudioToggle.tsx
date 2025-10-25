@@ -12,7 +12,7 @@ const AudioToggle = ({ isMuted, onToggle }: AudioToggleProps) => {
       variant="outline"
       size="icon"
       onClick={onToggle}
-      className="fixed top-4 right-4 md:right-4 z-40 bg-card/80 backdrop-blur-sm border-primary/30 hover:bg-card hover:border-primary transition-all"
+      className="fixed top-4 right-4 md:right-4 z-[9999] bg-card/80 backdrop-blur-sm border-primary/30 hover:bg-card hover:border-primary transition-all pointer-events-auto"
       aria-label={isMuted ? "Unmute" : "Mute"}
     >
       {isMuted ? (

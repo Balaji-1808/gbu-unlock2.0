@@ -69,31 +69,31 @@ const LevelMap = ({
             >
               {/* Decorative scroll with level info */}
               <div className={`relative ${level.completed ? 'opacity-100' : 'opacity-60'}`}>
-                <motion.div
+                                <motion.div
                   className={`px-4 py-2 rounded-r-lg border-l-4 backdrop-blur-md shadow-lg ${
-                    level.completed
-                      ? 'bg-gradient-to-r from-amber-900/80 to-yellow-900/60 border-yellow-500'
+                    level.completed 
+                      ? 'border-yellow-500 bg-gradient-to-r from-amber-900/80 to-yellow-900/60' 
                       : level.current
-                      ? 'bg-gradient-to-r from-purple-900/80 to-pink-900/60 border-purple-500'
-                      : 'bg-gradient-to-r from-stone-900/80 to-stone-800/60 border-stone-600'
+                      ? 'border-purple-400 bg-gradient-to-r from-purple-800/95 to-pink-800/85'
+                      : 'border-stone-600 bg-gradient-to-r from-stone-900/50 to-stone-800/40'
                   }`}
                   whileHover={{ scale: 1.05, x: 5 }}
                   animate={level.current ? { 
                     boxShadow: [
-                      '0 0 10px rgba(168,85,247,0.3)',
-                      '0 0 20px rgba(236,72,153,0.5)',
-                      '0 0 10px rgba(168,85,247,0.3)'
+                      '0 0 10px rgba(168,85,247,0.5)',
+                      '0 0 20px rgba(236,72,153,0.7)',
+                      '0 0 10px rgba(168,85,247,0.5)'
                     ]
                   } : {}}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
                   <div className="flex items-center gap-2">
                     {level.completed && <Trophy className="w-4 h-4 text-yellow-300 drop-shadow-[0_0_6px_rgba(253,224,71,0.8)]" />}
-                    {level.current && <Zap className="w-4 h-4 text-purple-300 drop-shadow-[0_0_6px_rgba(216,180,254,0.8)]" />}
+                    {level.current && <Zap className="w-4 h-4 text-purple-200 drop-shadow-[0_0_8px_rgba(216,180,254,1)]" />}
                     {level.locked && <Lock className="w-3 h-3 text-stone-400" />}
-                    <span className={`text-sm font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] ${
+                    <span className={`text-sm font-black drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] ${
                       level.completed ? 'text-yellow-300' : 
-                      level.current ? 'text-purple-300' : 
+                      level.current ? 'text-purple-200' : 
                       'text-stone-400'
                     }`}>
                       Stage {level.number}
@@ -197,20 +197,20 @@ const LevelMap = ({
               )}
               {level.current && (
                 <motion.div
-                  className="px-4 py-2 rounded-l-lg border-r-4 border-purple-500 bg-gradient-to-l from-purple-900/80 to-pink-900/60 backdrop-blur-md shadow-lg"
+                  className="px-4 py-2 rounded-l-lg border-r-4 border-purple-400 bg-gradient-to-l from-purple-800/95 to-pink-800/85 backdrop-blur-md shadow-lg"
                   animate={{ 
                     scale: [1, 1.05, 1],
                     boxShadow: [
-                      '0 0 15px rgba(168,85,247,0.4)',
-                      '0 0 25px rgba(236,72,153,0.6)',
-                      '0 0 15px rgba(168,85,247,0.4)'
+                      '0 0 15px rgba(168,85,247,0.6)',
+                      '0 0 25px rgba(236,72,153,0.8)',
+                      '0 0 15px rgba(168,85,247,0.6)'
                     ]
                   }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
                   <div className="flex items-center gap-2 justify-end">
-                    <span className="text-sm font-black text-purple-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Active Quest</span>
-                    <Zap className="w-4 h-4 text-purple-300 fill-purple-200 drop-shadow-[0_0_6px_rgba(216,180,254,0.8)]" />
+                    <span className="text-sm font-black text-purple-200 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">Active Quest</span>
+                    <Zap className="w-4 h-4 text-purple-200 fill-purple-100 drop-shadow-[0_0_8px_rgba(216,180,254,1)]" />
                   </div>
                 </motion.div>
               )}
@@ -496,6 +496,7 @@ const LevelMap = ({
           return (
             <motion.div
               key={`level-${level.number}`}
+              id={`chest-${level.number}`}
               className="absolute left-1/2 z-20"
               style={{
                 top: `${yPosition}px`,
@@ -550,6 +551,102 @@ const LevelMap = ({
                       className="w-full h-full object-contain z-10 drop-shadow-2xl"
                     />
                   </>
+                ) : level.locked ? (
+                  <>
+                    {/* Dark mysterious aura for locked chest */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-stone-700/40 via-stone-600/40 to-stone-700/40 blur-2xl z-0"
+                      animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                      }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+
+                    {/* Closed chest with grayscale */}
+                    <img
+                      src="/closed-chest.webp"
+                      alt="Locked chest"
+                      className="w-full h-full object-contain z-10 grayscale opacity-60"
+                    />
+
+                    {/* Large pulsing lock icon */}
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center z-30"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.7, 1, 0.7],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Lock className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-stone-500 drop-shadow-[0_0_10px_rgba(120,113,108,0.8)]" />
+                    </motion.div>
+
+                    {/* Mysterious smoke/fog particles around locked chest */}
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <motion.div
+                        key={`fog-${i}`}
+                        className="absolute w-8 h-8 sm:w-12 sm:h-12 bg-stone-600/20 rounded-full blur-xl z-5"
+                        style={{
+                          left: `${20 + (i % 3) * 30}%`,
+                          top: `${30 + Math.floor(i / 3) * 40}%`,
+                        }}
+                        animate={{
+                          scale: [1, 1.5, 1],
+                          opacity: [0.2, 0.4, 0.2],
+                          x: [0, (i % 2 === 0 ? 10 : -10), 0],
+                          y: [0, (i % 2 === 0 ? -10 : 10), 0],
+                        }}
+                        transition={{
+                          duration: 3 + i * 0.5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    ))}
+
+                    {/* Chains wrapping effect */}
+                    <motion.div
+                      className="absolute left-0 right-0 top-1/3 h-2 bg-gradient-to-r from-transparent via-stone-600/60 to-transparent z-25"
+                      animate={{
+                        opacity: [0.4, 0.7, 0.4],
+                      }}
+                      transition={{ duration: 2.5, repeat: Infinity }}
+                    />
+                    <motion.div
+                      className="absolute left-0 right-0 bottom-1/3 h-2 bg-gradient-to-r from-transparent via-stone-600/60 to-transparent z-25"
+                      animate={{
+                        opacity: [0.7, 0.4, 0.7],
+                      }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: 1.25 }}
+                    />
+
+                    {/* Dark energy particles */}
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <motion.div
+                        key={`particle-${i}`}
+                        className="absolute z-20"
+                        style={{
+                          left: "50%",
+                          top: "50%",
+                        }}
+                        animate={{
+                          x: [0, (Math.cos((i / 4) * Math.PI * 2) * 40)],
+                          y: [0, (Math.sin((i / 4) * Math.PI * 2) * 40)],
+                          opacity: [0, 0.6, 0],
+                          scale: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: i * 0.5,
+                          ease: "easeOut",
+                        }}
+                      >
+                        <div className="w-2 h-2 bg-stone-500 rounded-full shadow-[0_0_8px_rgba(120,113,108,0.6)]" />
+                      </motion.div>
+                    ))}
+                  </>
                 ) : (
                   <>
                     {/* Closed chest image */}
@@ -561,45 +658,48 @@ const LevelMap = ({
                   </>
                 )}
 
-                {/* Level Number Badge */}
-                {/* Level Number Badge */}
-                <div
-                  className={`absolute text-nowrap z-30 text-xs sm:text-sm md:text-base font-bold
-                  -bottom-6 sm:-bottom-8 left-1/2 transform -translate-x-1/2
-                  lg:left-auto lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-24 lg:translate-x-0`}
-                  style={{
-                    color: level.locked
-                      ? "#9ca3af"
-                      : level.completed
-                      ? "#eab308"
-                      : "#f59e0b",
-                  }}
-                >
-                  <span className="font-bold">{level.number}</span>
-                </div>
               </motion.div>
+
+              {/* Level Number Badge */}
+              <div
+                className={`absolute text-nowrap z-30 text-xs sm:text-sm md:text-base font-bold
+                bottom-12 sm:bottom-10 md:bottom-8 left-1/2 transform -translate-x-1/2
+                lg:left-auto lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-24 lg:translate-x-0`}
+                style={{
+                  color: level.locked
+                    ? "#9ca3af"
+                    : level.completed
+                    ? "#eab308"
+                    : "#f59e0b",
+                }}
+              >
+                <span className="font-bold">{level.number}</span>
+              </div>
 
               {/* Status Label */}
               {level.locked && (
                 <p
-                  className="text-center mt-8 sm:mt-10 md:mt-14 text-xs font-bold text-stone-600 uppercase tracking-wider
-                  lg:text-center lg:mt-0 lg:absolute lg:left-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-20 lg:whitespace-nowrap lg:tracking-normal"
+                  className="absolute text-center text-xs font-bold text-stone-600 uppercase tracking-wider
+                  bottom-4 sm:bottom-2 md:bottom-0 left-1/2 transform -translate-x-1/2 whitespace-nowrap
+                  lg:left-auto lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-20 lg:tracking-normal"
                 >
                   Locked
                 </p>
               )}
               {level.completed && (
                 <p
-                  className="text-center mt-8 sm:mt-10 md:mt-14 text-xs font-bold text-yellow-600 uppercase tracking-wider
-                  lg:text-center lg:mt-0 lg:absolute lg:left-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-20 lg:whitespace-nowrap lg:tracking-normal"
+                  className="absolute text-center text-xs font-bold text-yellow-600 uppercase tracking-wider
+                  bottom-4 sm:bottom-2 md:bottom-0 left-1/2 transform -translate-x-1/2 whitespace-nowrap
+                  lg:left-auto lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-20 lg:tracking-normal"
                 >
                   ✓ Completed
                 </p>
               )}
               {level.current && (
                 <p
-                  className="text-center mt-8 sm:mt-10 md:mt-14 text-xs font-bold text-amber-600 uppercase tracking-wider animate-pulse
-                  lg:text-center lg:mt-0 lg:absolute lg:left-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-20 lg:whitespace-nowrap lg:tracking-normal"
+                  className="absolute text-center text-xs font-bold text-amber-600 uppercase tracking-wider animate-pulse
+                  bottom-4 sm:bottom-2 md:bottom-0 left-1/2 transform -translate-x-1/2 whitespace-nowrap
+                  lg:left-auto lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:-right-20 lg:tracking-normal"
                 >
                   → Solve Now
                 </p>

@@ -92,6 +92,18 @@ const Index = () => {
               setTotalAttempts(parsed.totalAttempts);
               // Restore the original start time so timer continues from where it left off
               setStartTime(parsed.startTime);
+              
+              // Scroll to current level after state is restored
+              setTimeout(() => {
+                const currentChest = document.getElementById(`chest-${parsed.currentLevel}`);
+                if (currentChest) {
+                  currentChest.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  });
+                }
+              }, 1000);
+              
               return;
             }
           } catch (e) {
@@ -167,8 +179,20 @@ const Index = () => {
 
   const handleCorrectAnswer = () => {
     if (currentLevel < questions.length) {
-      setCurrentLevel(currentLevel + 1);
+      const nextLevel = currentLevel + 1;
+      setCurrentLevel(nextLevel);
       setTotalAttempts(totalAttempts + 1);
+      
+      // Auto-scroll to next chest after a short delay
+      setTimeout(() => {
+        const nextChestElement = document.getElementById(`chest-${nextLevel}`);
+        if (nextChestElement) {
+          nextChestElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+        }
+      }, 500);
     } else {
       // Completed all chests
       const endTime = Date.now();
@@ -267,14 +291,15 @@ const Index = () => {
   // Playing state - level map with modal questions
   const currentQuestion = questions[currentLevel - 1];
   const completedLevels = currentLevel - 1;
+  const isQuestionOpen = selectedLevel !== null && selectedLevel === currentLevel;
 
   return (
     <>
       <ParallaxBackground />
       <AudioToggle isMuted={isMuted} onToggle={toggleMute} />
 
-      {/* Timer - Fixed position slightly left from volume bar */}
-      <div className="fixed top-4 right-20 sm:right-24 z-50">
+      {/* Timer - Fixed position slightly left from volume bar with high z-index */}
+      <div className="fixed top-4 right-20 sm:right-24 z-[9999]">
         <GameTimer
           durationMinutes={gameDurationMinutes}
           onTimeUp={handleTimeUp}
@@ -283,10 +308,13 @@ const Index = () => {
       </div>
 
       <div className="min-h-screen p-2 sm:p-4 md:p-8 flex flex-col items-center justify-center relative overflow-hidden">
-        <ProgressTracker
-          currentLevel={currentLevel}
-          totalLevels={questions.length}
-        />
+        {/* Hide progress bar on mobile when question is open */}
+        <div className={isQuestionOpen ? "hidden sm:block" : ""}>
+          <ProgressTracker
+            currentLevel={currentLevel}
+            totalLevels={questions.length}
+          />
+        </div>
 
         <div className="flex-1 flex items-center justify-center w-full">
           <LevelMap
@@ -303,7 +331,7 @@ const Index = () => {
 
         <QuestionModal
           question={selectedLevel ? questions[selectedLevel - 1] : null}
-          isOpen={selectedLevel !== null && selectedLevel === currentLevel}
+          isOpen={isQuestionOpen}
           levelNumber={selectedLevel || currentLevel}
           onClose={() => setSelectedLevel(null)}
           onCorrect={() => {

@@ -168,7 +168,7 @@ const QuestionModal = ({
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent
-          className="max-w-2xl w-[95vw] sm:w-full border border-primary/30 bg-card/95 backdrop-blur-sm text-foreground shadow-2xl rounded-lg sm:rounded-2xl p-4 sm:p-6 max-h-[95vh] overflow-y-auto"
+          className="max-w-2xl w-[95vw] sm:w-full border border-primary/30 bg-card/95 backdrop-blur-sm text-foreground shadow-2xl rounded-lg sm:rounded-2xl p-4 sm:p-6 max-h-[95vh] overflow-y-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-stone-800/50 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-yellow-400 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-stone-800 hover:[&::-webkit-scrollbar-thumb]:bg-yellow-300"
           onEscapeKeyDown={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
         >

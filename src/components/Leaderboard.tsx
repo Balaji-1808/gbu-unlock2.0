@@ -255,7 +255,7 @@ const Leaderboard = ({ onClose, currentUserName }: LeaderboardProps) => {
         </div>
 
         {/* Leaderboard List */}
-        <div className="overflow-y-auto max-h-[calc(90vh-200px)] sm:max-h-[60vh]">
+        <div className="overflow-y-auto max-h-[calc(90vh-200px)] sm:max-h-[60vh] [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-stone-800/50 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-yellow-400 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-stone-900/50 hover:[&::-webkit-scrollbar-thumb]:bg-yellow-300">
           {loading ? (
             <div className="p-8 text-center text-muted-foreground">
               Loading...
